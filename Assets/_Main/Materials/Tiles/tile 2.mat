@@ -42,7 +42,7 @@ Material:
     - _QueueOffset: 0
     m_Colors:
     - _Background_Color: {r: 0.19999997, g: 0.58431375, b: 0.36653596, a: 1}
-    - _BgColor: {r: 0.936, g: 0.8999345, b: 0.364104, a: 1}
+    - _BgColor: {r: 0.9372549, g: 0.8980392, b: 0.3647059, a: 1}
     - _IconColor: {r: 1, g: 1, b: 1, a: 1}
     - _Icon_Color: {r: 0.8509804, g: 0.8509804, b: 0.8509804, a: 1}
   m_BuildTextureStacks: []

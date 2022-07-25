@@ -7,11 +7,7 @@ public class LevelPrefab : MonoBehaviour
 {
     #region  Variable
     //------------------------------------//
-#if UNITY_EDITOR
-    [Header("Editor")]
-    [Tooltip("Level will not change, move infinite")]
-    [SerializeField] public bool infinite;
-#endif
+
     [HideInInspector] public Transform playerStart;
     [Header("Config")]
     [SerializeField] public int moves;
@@ -30,12 +26,6 @@ public class LevelPrefab : MonoBehaviour
                 allDone = allDone && tile.isActive;
                 if(!allDone) break;
             }
-
-#if UNITY_EDITOR
-            if(infinite)
-                allDone = false;
-#endif
-
             return allDone;
         }
     }

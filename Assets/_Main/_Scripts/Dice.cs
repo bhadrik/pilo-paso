@@ -10,6 +10,7 @@ public class Dice : MonoBehaviour
     #region  Variable
     //------------------------------------//
 
+    [SerializeField] GameObject diceMesh;
     [SerializeField] int speed = 300;
     bool isMoving = false;
 
@@ -22,7 +23,6 @@ public class Dice : MonoBehaviour
     public UnityEvent onPlayerMove;
 
     AudioSource sound;
-
     InputControl inputControl;
 
     //------------------------------------//
@@ -101,20 +101,23 @@ public class Dice : MonoBehaviour
 
     public void GoingAnim(){
         Sequence s = DOTween.Sequence();
-        s.Append(transform.DOScale(Vector3.one * 1.05f, 0.1f));
-        s.Append(transform.DOScale(Vector3.zero, 0.4f));
+        s.Append(diceMesh.transform.DOScale(Vector3.one * 1.05f, 0.1f));
+        s.Append(diceMesh.transform.DOScale(Vector3.zero, 0.4f));
     }
 
     public void CommingAnim(){
         Sequence s = DOTween.Sequence();
-        // s.Append(transform.DOScale(Vector3.one, 0.5f));
-        s.Append(transform.DOScale(Vector3.one * 1.05f, 0.4f));
-        s.Append(transform.DOScale(Vector3.one, 0.1f));
+        s.Append(diceMesh.transform.DOScale(Vector3.one * 1.05f, 0.4f));
+        s.Append(diceMesh.transform.DOScale(Vector3.one, 0.1f));
     }
 
     public void Control(bool isOn){
         if(isOn) inputControl.Dice.Enable();
         else inputControl.Dice.Disable();
+    }
+
+    public void ResetGraphicsScale(){
+        diceMesh.transform.localScale = Vector3.zero;
     }
 
     //------------------------------------//

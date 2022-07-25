@@ -9,7 +9,11 @@ public class GameManager : MonoBehaviourSingleton<GameManager>
     #region  Variable
     //------------------------------------//
     #if UNITY_EDITOR
-    int moveCountsAfterClear;
+    // int moveCountsAfterClear;
+
+    [Header("Editor")]
+    [Tooltip("Level will not change, move infinite")]
+    [SerializeField] public bool infinite;
     #endif
 
     [Header("General")]
@@ -141,16 +145,15 @@ public class GameManager : MonoBehaviourSingleton<GameManager>
         lodedLevel.onObjectiveComplete.AddListener(() => OnLevelComplete());
         currentLevelCompleted = false;
 
-        player.transform.localScale = Vector3.zero;
+        player.ResetMovingConstrains();
+        player.transform.SetPositionAndRotation(lodedLevel.playerStart.position, lodedLevel.playerStart.rotation);
+        player.ResetGraphicsScale();
 
         Run.After(1.5f, () => {
             // player.enabled = true;
             player.Control(true);
             player.CommingAnim();
         });
-
-        player.ResetMovingConstrains();
-        player.transform.SetPositionAndRotation(lodedLevel.playerStart.position, lodedLevel.playerStart.rotation);
 
         remainMoves = lodedLevel.moves;
         moveText.text = remainMoves.ToString();
@@ -164,12 +167,12 @@ public class GameManager : MonoBehaviourSingleton<GameManager>
     }
 
     private void OnPlayerMove(){
-#if UNITY_EDITOR
-        if(lodedLevel.infinite) return;
-#endif
-
         remainMoves--;
         moveText.text = remainMoves.ToString();
+
+#if UNITY_EDITOR
+        if(infinite) return;
+#endif
 
         //[Check for move finish]
         if(remainMoves == 0){
