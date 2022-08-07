@@ -1,5 +1,18 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-1489966197515258145
+MonoBehaviour:
+  m_ObjectHideFlags: 11
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0353a89b1f911e48b9e16bdc9f2e058, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  version: 5
 --- !u!21 &2100000
 Material:
   serializedVersion: 8
@@ -7,8 +20,8 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: urp_dashed_line
-  m_Shader: {fileID: -6465566751694194690, guid: a1cb7e102d92d0f40b24b068b9ab0d06, type: 3}
+  m_Name: rail
+  m_Shader: {fileID: -6465566751694194690, guid: ed8babb5e19a7fb46beab611c6840425, type: 3}
   m_ValidKeywords: []
   m_InvalidKeywords: []
   m_LightmapFlags: 4
@@ -20,8 +33,12 @@ Material:
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
-    - _MainTex:
+    - _BackgroundTex:
         m_Texture: {fileID: 2800000, guid: 82e175c6508fb1d45b11623b388f20d9, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MainTex:
+        m_Texture: {fileID: 2800000, guid: 867a7c738f0d7c24884bae73ffd483b8, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - unity_Lightmaps:
@@ -39,8 +56,11 @@ Material:
     m_Ints: []
     m_Floats:
     - _Animated: 1
-    - _FillingValue: 0
-    - _Tiling: 7
+    - _Height: 1
+    - _QueueControl: 0
+    - _QueueOffset: 0
+    - _Width: 8
     m_Colors:
-    - _Color: {r: 0, g: 0, b: 0, a: 0.8}
+    - _Bg_Color: {r: 0.18867922, g: 0.18867922, b: 0.18867922, a: 1}
+    - _Color: {r: 1, g: 0.84656084, b: 0, a: 1}
   m_BuildTextureStacks: []
