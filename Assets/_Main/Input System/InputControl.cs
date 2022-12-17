@@ -156,7 +156,7 @@ public partial class @InputControl : IInputActionCollection2, IDisposable
             ]
         },
         {
-            ""name"": ""GemeControl"",
+            ""name"": ""GameControl"",
             ""id"": ""3fc60547-e9af-463a-aca4-8ff83bb1212f"",
             ""actions"": [
                 {
@@ -181,6 +181,24 @@ public partial class @InputControl : IInputActionCollection2, IDisposable
                     ""name"": ""Restart"",
                     ""type"": ""Button"",
                     ""id"": ""885f8cf8-55ee-495b-9baf-965d6d636e86"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""FinishGame"",
+                    ""type"": ""Button"",
+                    ""id"": ""835f0117-306d-4949-8bdd-aa59c1526140"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Back"",
+                    ""type"": ""Button"",
+                    ""id"": ""e1c21ffb-fd7c-4123-b4ae-3ab17aa3d4a9"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
@@ -231,6 +249,28 @@ public partial class @InputControl : IInputActionCollection2, IDisposable
                     ""action"": ""Restart"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""9caac3af-f475-4b5f-9975-80b24ebf2c57"",
+                    ""path"": ""<Keyboard>/p"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""FinishGame"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""dc316210-9a33-4402-95f0-e303bd8494b2"",
+                    ""path"": ""<Keyboard>/escape"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Back"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -243,11 +283,13 @@ public partial class @InputControl : IInputActionCollection2, IDisposable
         m_Dice_Left = m_Dice.FindAction("Left", throwIfNotFound: true);
         m_Dice_Forward = m_Dice.FindAction("Forward", throwIfNotFound: true);
         m_Dice_Backward = m_Dice.FindAction("Backward", throwIfNotFound: true);
-        // GemeControl
-        m_GemeControl = asset.FindActionMap("GemeControl", throwIfNotFound: true);
-        m_GemeControl_NextLevel = m_GemeControl.FindAction("NextLevel", throwIfNotFound: true);
-        m_GemeControl_PreviousLevel = m_GemeControl.FindAction("PreviousLevel", throwIfNotFound: true);
-        m_GemeControl_Restart = m_GemeControl.FindAction("Restart", throwIfNotFound: true);
+        // GameControl
+        m_GameControl = asset.FindActionMap("GameControl", throwIfNotFound: true);
+        m_GameControl_NextLevel = m_GameControl.FindAction("NextLevel", throwIfNotFound: true);
+        m_GameControl_PreviousLevel = m_GameControl.FindAction("PreviousLevel", throwIfNotFound: true);
+        m_GameControl_Restart = m_GameControl.FindAction("Restart", throwIfNotFound: true);
+        m_GameControl_FinishGame = m_GameControl.FindAction("FinishGame", throwIfNotFound: true);
+        m_GameControl_Back = m_GameControl.FindAction("Back", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -361,39 +403,49 @@ public partial class @InputControl : IInputActionCollection2, IDisposable
     }
     public DiceActions @Dice => new DiceActions(this);
 
-    // GemeControl
-    private readonly InputActionMap m_GemeControl;
-    private IGemeControlActions m_GemeControlActionsCallbackInterface;
-    private readonly InputAction m_GemeControl_NextLevel;
-    private readonly InputAction m_GemeControl_PreviousLevel;
-    private readonly InputAction m_GemeControl_Restart;
-    public struct GemeControlActions
+    // GameControl
+    private readonly InputActionMap m_GameControl;
+    private IGameControlActions m_GameControlActionsCallbackInterface;
+    private readonly InputAction m_GameControl_NextLevel;
+    private readonly InputAction m_GameControl_PreviousLevel;
+    private readonly InputAction m_GameControl_Restart;
+    private readonly InputAction m_GameControl_FinishGame;
+    private readonly InputAction m_GameControl_Back;
+    public struct GameControlActions
     {
         private @InputControl m_Wrapper;
-        public GemeControlActions(@InputControl wrapper) { m_Wrapper = wrapper; }
-        public InputAction @NextLevel => m_Wrapper.m_GemeControl_NextLevel;
-        public InputAction @PreviousLevel => m_Wrapper.m_GemeControl_PreviousLevel;
-        public InputAction @Restart => m_Wrapper.m_GemeControl_Restart;
-        public InputActionMap Get() { return m_Wrapper.m_GemeControl; }
+        public GameControlActions(@InputControl wrapper) { m_Wrapper = wrapper; }
+        public InputAction @NextLevel => m_Wrapper.m_GameControl_NextLevel;
+        public InputAction @PreviousLevel => m_Wrapper.m_GameControl_PreviousLevel;
+        public InputAction @Restart => m_Wrapper.m_GameControl_Restart;
+        public InputAction @FinishGame => m_Wrapper.m_GameControl_FinishGame;
+        public InputAction @Back => m_Wrapper.m_GameControl_Back;
+        public InputActionMap Get() { return m_Wrapper.m_GameControl; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
         public bool enabled => Get().enabled;
-        public static implicit operator InputActionMap(GemeControlActions set) { return set.Get(); }
-        public void SetCallbacks(IGemeControlActions instance)
+        public static implicit operator InputActionMap(GameControlActions set) { return set.Get(); }
+        public void SetCallbacks(IGameControlActions instance)
         {
-            if (m_Wrapper.m_GemeControlActionsCallbackInterface != null)
+            if (m_Wrapper.m_GameControlActionsCallbackInterface != null)
             {
-                @NextLevel.started -= m_Wrapper.m_GemeControlActionsCallbackInterface.OnNextLevel;
-                @NextLevel.performed -= m_Wrapper.m_GemeControlActionsCallbackInterface.OnNextLevel;
-                @NextLevel.canceled -= m_Wrapper.m_GemeControlActionsCallbackInterface.OnNextLevel;
-                @PreviousLevel.started -= m_Wrapper.m_GemeControlActionsCallbackInterface.OnPreviousLevel;
-                @PreviousLevel.performed -= m_Wrapper.m_GemeControlActionsCallbackInterface.OnPreviousLevel;
-                @PreviousLevel.canceled -= m_Wrapper.m_GemeControlActionsCallbackInterface.OnPreviousLevel;
-                @Restart.started -= m_Wrapper.m_GemeControlActionsCallbackInterface.OnRestart;
-                @Restart.performed -= m_Wrapper.m_GemeControlActionsCallbackInterface.OnRestart;
-                @Restart.canceled -= m_Wrapper.m_GemeControlActionsCallbackInterface.OnRestart;
+                @NextLevel.started -= m_Wrapper.m_GameControlActionsCallbackInterface.OnNextLevel;
+                @NextLevel.performed -= m_Wrapper.m_GameControlActionsCallbackInterface.OnNextLevel;
+                @NextLevel.canceled -= m_Wrapper.m_GameControlActionsCallbackInterface.OnNextLevel;
+                @PreviousLevel.started -= m_Wrapper.m_GameControlActionsCallbackInterface.OnPreviousLevel;
+                @PreviousLevel.performed -= m_Wrapper.m_GameControlActionsCallbackInterface.OnPreviousLevel;
+                @PreviousLevel.canceled -= m_Wrapper.m_GameControlActionsCallbackInterface.OnPreviousLevel;
+                @Restart.started -= m_Wrapper.m_GameControlActionsCallbackInterface.OnRestart;
+                @Restart.performed -= m_Wrapper.m_GameControlActionsCallbackInterface.OnRestart;
+                @Restart.canceled -= m_Wrapper.m_GameControlActionsCallbackInterface.OnRestart;
+                @FinishGame.started -= m_Wrapper.m_GameControlActionsCallbackInterface.OnFinishGame;
+                @FinishGame.performed -= m_Wrapper.m_GameControlActionsCallbackInterface.OnFinishGame;
+                @FinishGame.canceled -= m_Wrapper.m_GameControlActionsCallbackInterface.OnFinishGame;
+                @Back.started -= m_Wrapper.m_GameControlActionsCallbackInterface.OnBack;
+                @Back.performed -= m_Wrapper.m_GameControlActionsCallbackInterface.OnBack;
+                @Back.canceled -= m_Wrapper.m_GameControlActionsCallbackInterface.OnBack;
             }
-            m_Wrapper.m_GemeControlActionsCallbackInterface = instance;
+            m_Wrapper.m_GameControlActionsCallbackInterface = instance;
             if (instance != null)
             {
                 @NextLevel.started += instance.OnNextLevel;
@@ -405,10 +457,16 @@ public partial class @InputControl : IInputActionCollection2, IDisposable
                 @Restart.started += instance.OnRestart;
                 @Restart.performed += instance.OnRestart;
                 @Restart.canceled += instance.OnRestart;
+                @FinishGame.started += instance.OnFinishGame;
+                @FinishGame.performed += instance.OnFinishGame;
+                @FinishGame.canceled += instance.OnFinishGame;
+                @Back.started += instance.OnBack;
+                @Back.performed += instance.OnBack;
+                @Back.canceled += instance.OnBack;
             }
         }
     }
-    public GemeControlActions @GemeControl => new GemeControlActions(this);
+    public GameControlActions @GameControl => new GameControlActions(this);
     public interface IDiceActions
     {
         void OnRight(InputAction.CallbackContext context);
@@ -416,10 +474,12 @@ public partial class @InputControl : IInputActionCollection2, IDisposable
         void OnForward(InputAction.CallbackContext context);
         void OnBackward(InputAction.CallbackContext context);
     }
-    public interface IGemeControlActions
+    public interface IGameControlActions
     {
         void OnNextLevel(InputAction.CallbackContext context);
         void OnPreviousLevel(InputAction.CallbackContext context);
         void OnRestart(InputAction.CallbackContext context);
+        void OnFinishGame(InputAction.CallbackContext context);
+        void OnBack(InputAction.CallbackContext context);
     }
 }

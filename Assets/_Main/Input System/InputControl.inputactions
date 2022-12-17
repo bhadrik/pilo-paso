@@ -134,7 +134,7 @@
             ]
         },
         {
-            "name": "GemeControl",
+            "name": "GameControl",
             "id": "3fc60547-e9af-463a-aca4-8ff83bb1212f",
             "actions": [
                 {
@@ -159,6 +159,24 @@
                     "name": "Restart",
                     "type": "Button",
                     "id": "885f8cf8-55ee-495b-9baf-965d6d636e86",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "FinishGame",
+                    "type": "Button",
+                    "id": "835f0117-306d-4949-8bdd-aa59c1526140",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Back",
+                    "type": "Button",
+                    "id": "e1c21ffb-fd7c-4123-b4ae-3ab17aa3d4a9",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -207,6 +225,28 @@
                     "processors": "",
                     "groups": "",
                     "action": "Restart",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "9caac3af-f475-4b5f-9975-80b24ebf2c57",
+                    "path": "<Keyboard>/p",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "FinishGame",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "dc316210-9a33-4402-95f0-e303bd8494b2",
+                    "path": "<Keyboard>/escape",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Back",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

@@ -1,4 +1,3 @@
-
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -66,10 +65,6 @@ public class Tile : MonoBehaviour
             onFill.Invoke();
         }
     }
-
-    // private void OnValidate() {
-    //     ActiveStatus(isActive);
-    // }
 
     //------------------------------------//
     #endregion

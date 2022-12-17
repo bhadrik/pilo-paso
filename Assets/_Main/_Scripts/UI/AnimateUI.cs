@@ -4,6 +4,7 @@ using DG.Tweening;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEditor;
 
 public class AnimateUI : MonoBehaviour
 {
@@ -29,6 +30,10 @@ public class AnimateUI : MonoBehaviour
         rectTransform.localPosition = Vector3.up * (size.y + 10);
     }
 
+    private void OnEnable() {
+        ShowPanel();
+    }
+
     //------------------------------------//
     #endregion
 
@@ -38,8 +43,6 @@ public class AnimateUI : MonoBehaviour
     #region  Public
     //------------------------------------//
     
-    
-
     public void ShowPanel(){
         // Sequence inAndOut = DOTween.Sequence();
         // inAndOut.Append(rectTransform.DOAnchorPosY(0, 0.7f));
@@ -63,3 +66,20 @@ public class AnimateUI : MonoBehaviour
     
     
 }
+
+#if UNITY_EDITOR
+[CustomEditor(typeof(AnimateUI))]
+public class AnimateUIEditor : Editor
+{
+    public override void OnInspectorGUI()
+    {
+        base.OnInspectorGUI();
+
+        AnimateUI obj = (AnimateUI)target;
+
+        if(GUILayout.Button("Show")){
+            obj.ShowPanel();
+        }
+    }
+}
+#endif

@@ -5,14 +5,14 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
 
-public class SceneCover : MonoBehaviour
+public class SceneCover : SingletonBehaviour<SceneCover>
 {
     
     #region  Variable
     //------------------------------------//
 
-    [HideInInspector]
-    public UnityEvent reachMax;
+    // [HideInInspector]
+    // public UnityEvent reachMax;
 
     TextMeshProUGUI messageText;
     RectTransform rectTransform;
@@ -44,17 +44,16 @@ public class SceneCover : MonoBehaviour
 
     #region  Public
     //------------------------------------//
-    
-    
 
-    public void StartCover(string msg){
+    public void StartCover(string msg, UnityAction onCoverMax){
         messageText.text = msg;
 
         Sequence inAndOut = DOTween.Sequence();
         inAndOut.Append(rectTransform.DOAnchorPosY(0, 0.7f));
-        inAndOut.AppendCallback(new TweenCallback(OnRechMax));
+        inAndOut.AppendCallback(new TweenCallback(() => onCoverMax.Invoke()));
         inAndOut.AppendInterval(1f);
         inAndOut.Append(rectTransform.DOAnchorPosY(size.y + 10, 0.7f));
+        inAndOut.AppendCallback(new TweenCallback(() => gameObject.SetActive(false)));
     }
 
     //------------------------------------//
@@ -66,9 +65,9 @@ public class SceneCover : MonoBehaviour
     #region  Private
     //------------------------------------//
 
-    private void OnRechMax(){
-        reachMax?.Invoke();
-    }
+    // private void OnRechMax(){
+    //     reachMax?.Invoke();
+    // }
 
     //------------------------------------//
     #endregion

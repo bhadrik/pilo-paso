@@ -19,11 +19,19 @@ public class Dice : MonoBehaviour
     [SerializeField] bool blockForward;
     [SerializeField] bool blockBack;
 
+    // [SerializeField] MeshRenderer right;
+    // [SerializeField] MeshRenderer left;
+    // [SerializeField] MeshRenderer forward;
+    // [SerializeField] MeshRenderer back;
+
     [HideInInspector]
     public UnityEvent onPlayerMove;
 
     AudioSource sound;
     InputControl inputControl;
+    // GameObject shadowPanelParent;
+
+    
 
     //------------------------------------//
     #endregion
@@ -37,6 +45,7 @@ public class Dice : MonoBehaviour
     private void Awake() {
         sound = GetComponent<AudioSource>();
         inputControl = new InputControl();
+        // shadowPanelParent = right.transform.parent.gameObject;
     }
 
     private void Start() {
@@ -134,6 +143,7 @@ public class Dice : MonoBehaviour
         if(isMoving) yield break;
 
         isMoving = true;
+        // shadowPanelParent.SetActive(false);
 
         onPlayerMove.Invoke();
         sound.Play();
@@ -149,6 +159,8 @@ public class Dice : MonoBehaviour
             yield return null;
         }
 
+        // shadowPanelParent.SetActive(true);
+        // shadowPanelParent.transform.rotation = Quaternion.identity;
         isMoving = false;
     }
 

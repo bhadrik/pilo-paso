@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 
-public class GameManager : MonoBehaviourSingleton<GameManager>
+public class GameManager : SingletonBehaviour<GameManager>
 {
     #region  Variable
     //------------------------------------//
@@ -18,11 +18,6 @@ public class GameManager : MonoBehaviourSingleton<GameManager>
 
     [Header("General")]
     [SerializeField] Dice player;
-    [SerializeField] TextMeshProUGUI moveText;
-    [SerializeField] GameObject finishCanvas;
-    [SerializeField] GameObject uiCanvas;
-    [SerializeField] SceneCover blackCurtain;
-    [SerializeField] TextMeshProUGUI levelCountText;
 
 
     [Header("Clip")]
@@ -30,14 +25,20 @@ public class GameManager : MonoBehaviourSingleton<GameManager>
     [SerializeField] AudioClip negativeClip;
 
 
-    [Header("Level")]
-    [SerializeField] GameObject[] levels;
+    // [Header("Level")]
+    // [SerializeField] GameObject[] levels;
 
-    
     LevelPrefab lodedLevel;
     AudioSource audioSource;
     AnimateUI endUI;
     InputControl inputControl;
+
+    [HideInInspector] public Material tile1;
+    [HideInInspector] public Material tile2;
+    [HideInInspector] public Material tile3;
+    [HideInInspector] public Material tile4;
+    [HideInInspector] public Material tile5;
+    [HideInInspector] public Material tile6;
 
     int loadedLevelIndex;
     int remainMoves;
@@ -54,22 +55,32 @@ public class GameManager : MonoBehaviourSingleton<GameManager>
 
     private void Awake() {
         player.onPlayerMove.AddListener(OnPlayerMove);
-        blackCurtain.reachMax.AddListener(ActualLevelChange);
+        // blackCurtain.reachMax.AddListener(ActualLevelChange);
         audioSource = GetComponent<AudioSource>();
-        endUI = finishCanvas.GetComponentInChildren<AnimateUI>();
         inputControl = new InputControl();
+
+        tile1 = Resources.Load<Material>("Shadow mat/tile 1");
+        tile2 = Resources.Load<Material>("Shadow mat/tile 2");
+        tile3 = Resources.Load<Material>("Shadow mat/tile 3");
+        tile4 = Resources.Load<Material>("Shadow mat/tile 4");
+        tile5 = Resources.Load<Material>("Shadow mat/tile 5");
+        tile6 = Resources.Load<Material>("Shadow mat/tile 6");
     }
 
     private void Start() {
-        LoadLevel(0, "Level 1");
-        moveText.text = "";
-        levelCountText.text = $"{loadedLevelIndex+1}/{levels.Length}";
+        // LoadLevel(0, "Level 1");
+        // moveText.text = "";
+        // UIManager.Instance.UpdateRemainingMoves(remainMoves);
+        // UIManager.Instance.UpdateLevelNumber(loadedLevelIndex+1/LevelList.Instance.levels_so.Length);
 
-        inputControl.GemeControl.Enable();
-        inputControl.GemeControl.Restart.performed += (c) => RestartLevel();
-        inputControl.GemeControl.NextLevel.performed += (c) => NextLevel();
-        inputControl.GemeControl.PreviousLevel.performed += (c) => PreviousLevel();
+
+        inputControl.GameControl.Enable();
+        inputControl.GameControl.Restart.performed += (c) => RestartLevel();
+        inputControl.GameControl.NextLevel.performed += (c) => NextLevel();
+        inputControl.GameControl.PreviousLevel.performed += (c) => PreviousLevel();
+        inputControl.GameControl.FinishGame.performed += (c) => UIManager.Instance.SwitchState(UIState.Finish);
     }
+
 
     //------------------------------------//
     #endregion
@@ -98,6 +109,11 @@ public class GameManager : MonoBehaviourSingleton<GameManager>
         Application.OpenURL("https://pixabay.com/sound-effects/");
     }
 
+    public void QuitGame(){
+        Application.Quit();
+    }
+    
+
 // #if UNITY_EDITOR
     public void NextLevel(){
         if(loadedLevelIndex == 9) return;
@@ -118,19 +134,20 @@ public class GameManager : MonoBehaviourSingleton<GameManager>
     #region  Private
     //------------------------------------//
     
-    private void LoadLevel(int i, string msg){
+    public void LoadLevel(int i, string msg){
         // Debug.Log("Load level: "+ i + " Level.Length" + levels.Length);
 
         // player.enabled = false;
 
         loadedLevelIndex = i;
 
-        if(i == levels.Length){
-            //[Show congrets on all level complete]
-            ShowFinishUI();
+        if(i == LevelList.Instance.levels_so.Length){
+            // [completed last level]
+            UIManager.Instance.SwitchState(UIState.Finish);
         }
         else{
-            blackCurtain.StartCover(msg);
+            // [load next level]
+            UIManager.Instance.ShowCover(msg, () => ActualLevelChange());
         }
     }
 
@@ -140,9 +157,9 @@ public class GameManager : MonoBehaviourSingleton<GameManager>
             Destroy(lodedLevel.gameObject);
         }
 
-        lodedLevel = Instantiate(levels[loadedLevelIndex], Vector3.zero, Quaternion.identity).GetComponent<LevelPrefab>();
+        lodedLevel = Instantiate(LevelList.Instance.levels_so[loadedLevelIndex].prefab, Vector3.zero, Quaternion.identity).GetComponent<LevelPrefab>();
         
-        lodedLevel.onObjectiveComplete.AddListener(() => OnLevelComplete());
+        lodedLevel.onObjectiveComplete.AddListener(OnLevelComplete);
         currentLevelCompleted = false;
 
         player.ResetMovingConstrains();
@@ -156,19 +173,14 @@ public class GameManager : MonoBehaviourSingleton<GameManager>
         });
 
         remainMoves = lodedLevel.moves;
-        moveText.text = remainMoves.ToString();
-        levelCountText.text = $"{loadedLevelIndex+1}/{levels.Length}";
-    }
-
-    private void ShowFinishUI(){
-        finishCanvas.SetActive(true);
-        uiCanvas.SetActive(false);
-        endUI.ShowPanel();
+        UIManager.Instance.UpdateRemainingMoves(remainMoves);
+        UIManager.Instance.UpdateLevelNumber((loadedLevelIndex+1)%LevelList.Instance.levels_so.Length);
+        UIManager.Instance.SwitchState(UIState.InGame);
     }
 
     private void OnPlayerMove(){
         remainMoves--;
-        moveText.text = remainMoves.ToString();
+        UIManager.Instance.UpdateRemainingMoves(remainMoves);
 
 #if UNITY_EDITOR
         if(infinite) return;
@@ -200,7 +212,10 @@ public class GameManager : MonoBehaviourSingleton<GameManager>
         audioSource.PlayOneShot(positiveClip);
 
         Run.After(1.0f, () => {
-            LoadLevel(loadedLevelIndex+1, $"Level {loadedLevelIndex+2}");
+            int nextLevelIndex = loadedLevelIndex+1;
+
+            LevelList.Instance.UnlockIfLocked(nextLevelIndex);
+            LoadLevel(nextLevelIndex, $"Level {nextLevelIndex+1}");
         });
     }
 
