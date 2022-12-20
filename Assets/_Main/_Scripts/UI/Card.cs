@@ -1,22 +1,22 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using DG.Tweening;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class Card : MonoBehaviour
 {
-    [Header("UI")]
-    [SerializeField] Color selected;
-    [SerializeField] Color unselected;
-
     [SerializeField] GameObject blackout;
+    [SerializeField] Image thumbnail;
 
     Toggle toggle;
     TextMeshProUGUI levelNumber;
-    Image backgroundImg;
-    LevelSO levelData;
+    LevelInfo levelData;
+    Image notSelectedOutline;
+    RectTransform rect;
+    LineRenderer deshLine;
 
     public int Id{
         get{
@@ -25,24 +25,41 @@ public class Card : MonoBehaviour
     }
 
     private void Awake() {
-        backgroundImg = GetComponent<Image>();
         levelNumber = GetComponentInChildren<TextMeshProUGUI>();
         toggle = GetComponent<Toggle>();
+        notSelectedOutline = GetComponent<Image>();
+        rect = GetComponent<RectTransform>();
+        deshLine = GetComponentInChildren<LineRenderer>();
+        deshLine.enabled = false;
 
         toggle.onValueChanged.AddListener(OnToggle);
     }
 
     private void OnToggle(bool isOn)
     {
-        if(isOn) backgroundImg.color = selected;
-        else backgroundImg.color = unselected;
+        if(deshLine != null)
+        deshLine.enabled = isOn;
+
+        if(isOn){
+            rect.DOScale(Vector3.one * 1.08f, 0.1f);
+        }else{
+            rect.DOScale(Vector3.one, 0.1f);
+        }
     }
 
-    public void SetLevelData(LevelSO levelData){
+    public void Initialize(LevelInfo levelData){
         this.levelData = levelData;
 
         levelNumber.text = "Level " + levelData.id;
         blackout.SetActive(levelData.isLocked);
         toggle.interactable = !levelData.isLocked;
+        thumbnail.sprite = levelData.thumbnail;
+    }
+
+    public void UnlockCardIfNot(){
+        levelData.isLocked = false;
+        blackout.SetActive(false);
+        toggle.interactable = true;
+        toggle.isOn = true;
     }
 }

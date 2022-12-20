@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: urp_dashed_line_UI
+  m_Name: urp_dashed_line_UI white
   m_Shader: {fileID: -6465566751694194690, guid: a1cb7e102d92d0f40b24b068b9ab0d06, type: 3}
   m_ValidKeywords: []
   m_InvalidKeywords: []
@@ -40,7 +40,7 @@ Material:
     m_Floats:
     - _Animated: 1
     - _FillingValue: 0
-    - _Tiling: 0.35
+    - _Tiling: 0.25
     m_Colors:
-    - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _Color: {r: 0, g: 0, b: 0, a: 0.6509804}
   m_BuildTextureStacks: []

@@ -141,7 +141,7 @@ public class GameManager : SingletonBehaviour<GameManager>
 
         loadedLevelIndex = i;
 
-        if(i == LevelList.Instance.levels_so.Length){
+        if(i == LevelList.Instance.Length){
             // [completed last level]
             UIManager.Instance.SwitchState(UIState.Finish);
         }
@@ -157,7 +157,7 @@ public class GameManager : SingletonBehaviour<GameManager>
             Destroy(lodedLevel.gameObject);
         }
 
-        lodedLevel = Instantiate(LevelList.Instance.levels_so[loadedLevelIndex].prefab, Vector3.zero, Quaternion.identity).GetComponent<LevelPrefab>();
+        lodedLevel = Instantiate(LevelList.Instance.levelData.levels[loadedLevelIndex].prefab, Vector3.zero, Quaternion.identity).GetComponent<LevelPrefab>();
         
         lodedLevel.onObjectiveComplete.AddListener(OnLevelComplete);
         currentLevelCompleted = false;
@@ -174,7 +174,7 @@ public class GameManager : SingletonBehaviour<GameManager>
 
         remainMoves = lodedLevel.moves;
         UIManager.Instance.UpdateRemainingMoves(remainMoves);
-        UIManager.Instance.UpdateLevelNumber((loadedLevelIndex+1)%LevelList.Instance.levels_so.Length);
+        UIManager.Instance.UpdateLevelNumber((loadedLevelIndex+1)%LevelList.Instance.Length);
         UIManager.Instance.SwitchState(UIState.InGame);
     }
 

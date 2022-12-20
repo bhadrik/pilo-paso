@@ -14,13 +14,22 @@ public class LevelList : SingletonBehaviour<LevelList>
 
     int count = 1;
 
-    public LevelSO[] levels_so;
+    // public LevelSO[] levels_so;
+    public LevelData_SO levelData;
+
+    public int Length
+    {
+        get {
+            return levelData.levels.Count;
+        }
+    }
 
 
     private void Awake() {
         toggleGroup = GetComponent<SmartToggleGroup>();
-        levels_so = Resources.LoadAll<LevelSO>("");
-        Array.Sort(levels_so, new LevelSoComparer());
+
+        levelData = Resources.Load<LevelData_SO>("Level/Level Data");
+        // levelData = new LevelData_SO();
 
         startButton.onClick.AddListener(() => {
             var card = toggleGroup.Selected.GetComponent<Card>();
@@ -30,28 +39,30 @@ public class LevelList : SingletonBehaviour<LevelList>
     }
 
     private void Start() {
-        foreach(var level in levels_so){
+        Toggle lastUnlockedLevel = null;
+
+        foreach(var level in levelData.levels){
             Toggle t = Instantiate(pr_Card, transform).GetComponent<Toggle>();
             toggleGroup.Add(t);
 
             var card = t.gameObject.GetComponent<Card>();
-            card.SetLevelData(level);
+            card.Initialize(level);
             cards.Add(card);
 
             count++;
+
+            if(!level.isLocked) lastUnlockedLevel = t;
         }
+
+        if(lastUnlockedLevel != null)
+        lastUnlockedLevel.isOn = true;
     }
 
     public void UnlockIfLocked(int index){
-        levels_so[index].isLocked = false;
-        cards[index].SetLevelData(levels_so[index]);
-    }
-}
+        // Update unlock in db
+        levelData.UnlockedLevel(index);
 
-class LevelSoComparer : IComparer
-{
-    public int Compare(object x, object y)
-    {
-        return ((LevelSO)x).id.CompareTo(((LevelSO)y).id);
+        // reflect changes on UI
+        cards[index].UnlockCardIfNot();
     }
 }

@@ -1,0 +1,60 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d13abb194690ce944b0e7d59d2c5fe86, type: 3}
+  m_Name: Level Data
+  m_EditorClassIdentifier: 
+  thumbnailNotFound: {fileID: 21300000, guid: 5c0cc525ad0fdc14db2deb5e221b5400, type: 3}
+  levels:
+  - id: 1
+    thumbnail: {fileID: 21300000, guid: 44f3ab0089b23b8428c33046c55610fb, type: 3}
+    prefab: {fileID: 6739010514225742542, guid: b6f598d3ffcb9f442a4bdd0b885c2215, type: 3}
+    isLocked: 0
+  - id: 2
+    thumbnail: {fileID: 21300000, guid: e4f80024c0ae1c64dba3645b44740370, type: 3}
+    prefab: {fileID: 9152069616194859425, guid: 79b4dc25a2d55a34dafc75d7fdb404de, type: 3}
+    isLocked: 0
+  - id: 3
+    thumbnail: {fileID: 21300000, guid: c42e18f46dd42424fa33ffbe0bb1edf0, type: 3}
+    prefab: {fileID: 9152069616194859425, guid: 2361ed87a632eaa4d864a063ef26ae70, type: 3}
+    isLocked: 1
+  - id: 4
+    thumbnail: {fileID: 21300000, guid: b63953f31a03fb94a819f5b2b3724803, type: 3}
+    prefab: {fileID: 9152069616194859425, guid: fd5aa37ac08ae594c8b584442d084e39, type: 3}
+    isLocked: 1
+  - id: 5
+    thumbnail: {fileID: 21300000, guid: 2e2d46cc78321414ca9450b69a15d7e1, type: 3}
+    prefab: {fileID: 9152069616194859425, guid: 20d551437ad5805409182e5d62670b39, type: 3}
+    isLocked: 1
+  - id: 6
+    thumbnail: {fileID: 21300000, guid: a4ab377c8d3d25549a124589cebfee95, type: 3}
+    prefab: {fileID: 9152069616194859425, guid: 1c28728a474907b40a4ca4afc025df94, type: 3}
+    isLocked: 1
+  - id: 7
+    thumbnail: {fileID: 21300000, guid: c1cc0390e7bbb1d409783870bbc08aaa, type: 3}
+    prefab: {fileID: 9152069616194859425, guid: 921991f06cc8f2947b596d7c73850deb, type: 3}
+    isLocked: 1
+  - id: 8
+    thumbnail: {fileID: 21300000, guid: 509e195288449ae498a15dd435dee1d7, type: 3}
+    prefab: {fileID: 9152069616194859425, guid: bf6e040a12044a049bf07acfc7654cb3, type: 3}
+    isLocked: 1
+  - id: 9
+    thumbnail: {fileID: 21300000, guid: 1efab1d541409c540a4cd21951ea0570, type: 3}
+    prefab: {fileID: 9152069616194859425, guid: 0b10d44b8f77aa1428a4005c8d4d191b, type: 3}
+    isLocked: 1
+  - id: 10
+    thumbnail: {fileID: 21300000, guid: 6cfb33716380ae0479078159b96794aa, type: 3}
+    prefab: {fileID: 9152069616194859425, guid: a2fbde858aea80c40a7542971daaddb7, type: 3}
+    isLocked: 1
+  - id: 11
+    thumbnail: {fileID: 0}
+    prefab: {fileID: 9152069616194859425, guid: ee6e9314e11838b49a3824e888762677, type: 3}
+    isLocked: 1

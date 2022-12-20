@@ -7,8 +7,8 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: urp_dashed_line_UI
-  m_Shader: {fileID: -6465566751694194690, guid: a1cb7e102d92d0f40b24b068b9ab0d06, type: 3}
+  m_Name: dashed-line-ui
+  m_Shader: {fileID: -6465566751694194690, guid: c8f0fb23247231646a0cf600ed2fe8cb, type: 3}
   m_ValidKeywords: []
   m_InvalidKeywords: []
   m_LightmapFlags: 4
@@ -39,8 +39,10 @@ Material:
     m_Ints: []
     m_Floats:
     - _Animated: 1
-    - _FillingValue: 0
-    - _Tiling: 0.35
+    - _SpeedMultiplier: 0
+    - _Tiling: 0.3
+    - _isXAxis: 0
+    - _isYAxis: 1
     m_Colors:
-    - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _Color: {r: 0.5618144, g: 0.45510852, b: 0.8867924, a: 1}
   m_BuildTextureStacks: []

@@ -7,6 +7,8 @@ public class DeshUIHelper : MonoBehaviour
     #region  Variable
     //------------------------------------//
     [SerializeField] float offset = 1;
+    [SerializeField] float scaler = 5;
+    [SerializeField] bool hideRightSide;
 
     LineRenderer lineRenderer;
     RectTransform rectTransform;
@@ -31,38 +33,23 @@ public class DeshUIHelper : MonoBehaviour
         // Debug.Log($"y: {rectTransform.anchoredPosition.y}");
         // Debug.Log($"width: {rectTransform.rect.width}");
         // Debug.Log($"height: {rectTransform.rect.height}");
+
+        transform.localScale = Vector3.one * scaler;
         
-        newPos = new Vector2(rectTransform.rect.width/10 - offset, rectTransform.rect.height/10 - offset);
+        newPos = new Vector2(rectTransform.rect.width/2/scaler - offset, rectTransform.rect.height/2/scaler - offset);
 
         lineRenderer.SetPosition(0, new Vector2(-newPos.x, -newPos.y));
-        lineRenderer.SetPosition(1, new Vector2(newPos.x, -newPos.y));
-        lineRenderer.SetPosition(2, new Vector2(newPos.x, newPos.y));
+
+        lineRenderer.SetPosition(1, new Vector2(newPos.x + (hideRightSide ? 5:0), -newPos.y));
+        lineRenderer.SetPosition(2, new Vector2(newPos.x + (hideRightSide ? 5:0), newPos.y));
         lineRenderer.SetPosition(3, new Vector2(-newPos.x, newPos.y));
+    }
+
+    [ContextMenu("Update line")]
+    private void UpdateScale(){
+        Start();
     }
 
     //------------------------------------//
     #endregion
-
-
-
-
-    #region  Public
-    //------------------------------------//
-    
-    
-
-    //------------------------------------//
-    #endregion
-
-
-
-
-    #region  Private
-    //------------------------------------//
-    
-    
-
-    //------------------------------------//
-    #endregion
-    
 }
