@@ -24,6 +24,7 @@ public class Tile : MonoBehaviour
 
     AudioSource sound;
     MeshRenderer tileRenderer;
+    ParticleSystem particles;
 
     const string BACK_COLOR = "_BgColor";
     const string ICON_COLOR = "_IconColor";
@@ -39,6 +40,7 @@ public class Tile : MonoBehaviour
     private void Awake() {
         tileRenderer = GetComponentInChildren<MeshRenderer>();
         sound = GetComponent<AudioSource>();
+        particles = GetComponentInChildren<ParticleSystem>();
     }
 
     private void Start() {
@@ -63,6 +65,7 @@ public class Tile : MonoBehaviour
 
             sound.Play();
             onFill.Invoke();
+            particles.Play();
         }
     }
 
