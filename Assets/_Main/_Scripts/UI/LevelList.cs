@@ -28,8 +28,9 @@ public class LevelList : SingletonBehaviour<LevelList>
     private void Awake() {
         toggleGroup = GetComponent<SmartToggleGroup>();
 
-        levelData = Resources.Load<LevelData_SO>("Level/Level Data");
+        // levelData = Resources.Load<LevelData_SO>("Level/Level Data");
         // levelData = new LevelData_SO();
+        levelData = ScriptableObject.CreateInstance<LevelData_SO>();
 
         startButton.onClick.AddListener(() => {
             var card = toggleGroup.Selected.GetComponent<Card>();

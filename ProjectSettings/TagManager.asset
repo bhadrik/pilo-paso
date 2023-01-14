@@ -3,7 +3,19 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - ground
+  - six
+  - four
+  - five
+  - two
+  - three
+  - one
+  - block left
+  - block back
+  - block forward
+  - block right
+  - Single
   layers:
   - Default
   - TransparentFX

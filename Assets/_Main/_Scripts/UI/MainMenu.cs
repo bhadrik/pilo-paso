@@ -1,7 +1,3 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using DG.Tweening;
 using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
@@ -28,6 +24,7 @@ public class MainMenu : MonoBehaviour
     private void OnEnable() {
         previousProfile = global.profile;
         global.profile = mainMenuProfile;
+        GameManager.Instance.PlayerActiveToggle(false);
     }
 
     private void OnDisable() {

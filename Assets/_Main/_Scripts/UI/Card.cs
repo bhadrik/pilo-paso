@@ -10,13 +10,14 @@ public class Card : MonoBehaviour
 {
     [SerializeField] GameObject blackout;
     [SerializeField] Image thumbnail;
+    [SerializeField] GameObject deshLine;
 
     Toggle toggle;
     TextMeshProUGUI levelNumber;
     LevelInfo levelData;
     Image notSelectedOutline;
     RectTransform rect;
-    LineRenderer deshLine;
+    // LineRenderer deshLine;
 
     public int Id{
         get{
@@ -29,16 +30,19 @@ public class Card : MonoBehaviour
         toggle = GetComponent<Toggle>();
         notSelectedOutline = GetComponent<Image>();
         rect = GetComponent<RectTransform>();
-        deshLine = GetComponentInChildren<LineRenderer>();
-        deshLine.enabled = false;
+        // deshLine = GetComponentInChildren<LineRenderer>();
+        // deshLine.enabled = false;
 
         toggle.onValueChanged.AddListener(OnToggle);
+
+        deshLine.SetActive(false);
     }
 
     private void OnToggle(bool isOn)
     {
         if(deshLine != null)
-        deshLine.enabled = isOn;
+        deshLine.SetActive(isOn);
+        // deshLine.enabled = isOn;
 
         if(isOn){
             rect.DOScale(Vector3.one * 1.08f, 0.1f);

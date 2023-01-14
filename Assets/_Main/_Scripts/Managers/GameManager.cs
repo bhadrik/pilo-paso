@@ -91,13 +91,16 @@ public class GameManager : SingletonBehaviour<GameManager>
     #region  Public
     //------------------------------------//
 
+    public void PlayerActiveToggle(bool isOn){
+        player.ToggleActiveState(isOn);
+    }
+
     public void RestartGame(){
         SceneManager.LoadSceneAsync(0);
     }
 
     public void RestartLevel(string msg = null){
-        // player.enabled = false;
-        player.Control(false);
+        player.ToggleActiveState(false);
 
         if(string.IsNullOrEmpty(msg))
             msg = $"Level {loadedLevelIndex+1}";
@@ -137,17 +140,15 @@ public class GameManager : SingletonBehaviour<GameManager>
     public void LoadLevel(int i, string msg){
         // Debug.Log("Load level: "+ i + " Level.Length" + levels.Length);
 
-        // player.enabled = false;
-
         loadedLevelIndex = i;
 
-        if(i == LevelList.Instance.Length){
-            // [completed last level]
+        // [completed last level]
+        if(loadedLevelIndex == LevelList.Instance.Length){
             UIManager.Instance.SwitchState(UIState.Finish);
         }
+        // [load next level]
         else{
-            // [load next level]
-            UIManager.Instance.ShowCover(msg, () => ActualLevelChange());
+            UIManager.Instance.ShowCover(msg, onCoverMax: ActualLevelChange);
         }
     }
 
@@ -167,8 +168,6 @@ public class GameManager : SingletonBehaviour<GameManager>
         player.ResetGraphicsScale();
 
         Run.After(1.5f, () => {
-            // player.enabled = true;
-            player.Control(true);
             player.CommingAnim();
         });
 
@@ -190,7 +189,7 @@ public class GameManager : SingletonBehaviour<GameManager>
         if(remainMoves == 0){
             // [Lost control while level finish check]
             // player.enabled = false;
-            player.Control(false);
+            player.ToggleActiveState(false);
 
             Run.After(1, () => {
                 if(!currentLevelCompleted){
@@ -204,7 +203,7 @@ public class GameManager : SingletonBehaviour<GameManager>
     private void OnLevelComplete(){
         // Debug.Log("Level complete");
         // player.enabled = false;
-        player.Control(false);
+        player.ToggleActiveState(false);
         currentLevelCompleted = true;
 
         player.GoingAnim();

@@ -32,7 +32,7 @@ public class LevelData_SO : ScriptableObject
         unlockedLevels = PlayerPrefs.GetString(UNLOCKED_LEVEL);
         noLevlDataFound = string.IsNullOrEmpty(unlockedLevels);
 
-        Debug.Log($"<color=green>Unlocked: {unlockedLevels}</color>");
+        Debug.Log($"<color=white>Unlocked: {unlockedLevels}</color>");
 
         // unlockedLevels = "0 0 0 1 1 1 1 1 1 1 1 1 1 1 1 1"
         if(!noLevlDataFound){

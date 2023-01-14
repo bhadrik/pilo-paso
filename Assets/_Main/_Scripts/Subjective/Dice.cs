@@ -52,19 +52,19 @@ public class Dice : MonoBehaviour
         inputControl.Dice.Enable();
 
         inputControl.Dice.Forward.performed += (c) =>{
-            if(!blockForward) StartCoroutine(Roll(Vector3.forward));
+            if(!blockForward) StartCoroutine(I_Roll(Vector3.forward));
         };
 
         inputControl.Dice.Backward.performed += (c) =>{
-            if(!blockBack) StartCoroutine(Roll(Vector3.back));
+            if(!blockBack) StartCoroutine(I_Roll(Vector3.back));
         };
 
         inputControl.Dice.Right.performed += (c) =>{
-            if(!blockRight) StartCoroutine(Roll(Vector3.right));
+            if(!blockRight) StartCoroutine(I_Roll(Vector3.right));
         };
 
         inputControl.Dice.Left.performed += (c) =>{
-            if(!blockLeft) StartCoroutine(Roll(Vector3.left));
+            if(!blockLeft) StartCoroutine(I_Roll(Vector3.left));
         };
     }
 
@@ -114,13 +114,23 @@ public class Dice : MonoBehaviour
         s.Append(diceMesh.transform.DOScale(Vector3.zero, 0.4f));
     }
 
-    public void CommingAnim(){
+    public void CommingAnim(bool activeOnComplete = true){
         Sequence s = DOTween.Sequence();
         s.Append(diceMesh.transform.DOScale(Vector3.one * 1.05f, 0.4f));
         s.Append(diceMesh.transform.DOScale(Vector3.one, 0.1f));
+
+        if(activeOnComplete)
+        s.AppendCallback(() => {
+            ToggleActiveState(true);
+        });
     }
 
-    public void Control(bool isOn){
+    public void ToggleActiveState(bool isOn){
+        if(inputControl==null) {
+            StartCoroutine(I_WaitForInputController(isOn));
+            return;
+        }
+
         if(isOn) inputControl.Dice.Enable();
         else inputControl.Dice.Disable();
     }
@@ -138,7 +148,7 @@ public class Dice : MonoBehaviour
     #region  Private
     //------------------------------------//
     
-    IEnumerator Roll(Vector3 direction) {
+    IEnumerator I_Roll(Vector3 direction) {
         // [Exit if already moveing]
         if(isMoving) yield break;
 
@@ -162,6 +172,12 @@ public class Dice : MonoBehaviour
         // shadowPanelParent.SetActive(true);
         // shadowPanelParent.transform.rotation = Quaternion.identity;
         isMoving = false;
+    }
+
+    IEnumerator I_WaitForInputController(bool isOn){
+        while(inputControl == null) yield return null;
+
+        ToggleActiveState(isOn);
     }
 
     //------------------------------------//

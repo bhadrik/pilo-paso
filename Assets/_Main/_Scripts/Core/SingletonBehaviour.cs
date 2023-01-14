@@ -14,7 +14,6 @@ public class SingletonBehaviour< TSelfType > : MonoBehaviour where TSelfType : M
 				{
 					m_Instance = (new GameObject(typeof(TSelfType).Name)).AddComponent<TSelfType>();
 				}
-				DontDestroyOnLoad(m_Instance.gameObject);
 			}
 			return m_Instance;
 		}

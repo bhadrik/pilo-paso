@@ -40,7 +40,7 @@ Material:
     m_Floats:
     - _Animated: 1
     - _SpeedMultiplier: 0
-    - _Tiling: 0.3
+    - _Tiling: 10
     - _isXAxis: 0
     - _isYAxis: 1
     m_Colors:
