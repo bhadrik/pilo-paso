@@ -25,6 +25,7 @@ public class MainMenu : MonoBehaviour
         previousProfile = global.profile;
         global.profile = mainMenuProfile;
         GameManager.Instance.PlayerActiveToggle(false);
+        BackgroundMusic.Instance.MainMenu();
     }
 
     private void OnDisable() {

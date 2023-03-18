@@ -150,6 +150,8 @@ public class GameManager : SingletonBehaviour<GameManager>
         else{
             UIManager.Instance.ShowCover(msg, onCoverMax: ActualLevelChange);
         }
+
+        BackgroundMusic.Instance.InGame();
     }
 
     //[Called by animator event after scene is covered properly]
@@ -175,9 +177,14 @@ public class GameManager : SingletonBehaviour<GameManager>
         UIManager.Instance.UpdateRemainingMoves(remainMoves);
         UIManager.Instance.UpdateLevelNumber((loadedLevelIndex+1)%LevelList.Instance.Length);
         UIManager.Instance.SwitchState(UIState.InGame);
+
+        // [Show tutorial video in first level only]
+        if(loadedLevelIndex==0) UIManager.Instance.ShowTutorialVideo();
     }
 
     private void OnPlayerMove(){
+        if(remainMoves < 0) return;
+
         remainMoves--;
         UIManager.Instance.UpdateRemainingMoves(remainMoves);
 
@@ -188,7 +195,7 @@ public class GameManager : SingletonBehaviour<GameManager>
         //[Check for move finish]
         if(remainMoves == 0){
             // [Lost control while level finish check]
-            // player.enabled = false;
+            
             player.ToggleActiveState(false);
 
             Run.After(1, () => {

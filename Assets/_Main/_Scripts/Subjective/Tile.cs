@@ -5,6 +5,11 @@ public class Tile : MonoBehaviour
 {
     #region  Variable
     //------------------------------------//
+#if UNITY_EDITOR
+    [Header("Debug Only")]
+    [SerializeField] bool isForVideoRecord;
+    [Space]
+#endif
 
     [SerializeField] public TileNumber tileType;
 
@@ -54,7 +59,12 @@ public class Tile : MonoBehaviour
     {
         // In game tile touch
         if(isActive) return;
-
+#if UNITY_EDITOR
+        if(isForVideoRecord){
+            particles.Play();
+            return;
+        }
+#endif
         else if(other.gameObject.CompareTag(tileType.ToString())){
             isActive = true;
 
