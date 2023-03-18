@@ -30,6 +30,8 @@ MonoBehaviour:
     m_Url: https://package.openupm.com
     m_Scopes:
     - com.hqcchina.gameframework
+    - com.codewriter.triinspector
+    - com.yasirkula.beziersolution
     m_IsDefault: 0
     m_Capabilities: 0
   m_UserSelectedRegistryName: Open UPM

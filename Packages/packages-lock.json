@@ -1,5 +1,12 @@
 {
   "dependencies": {
+    "com.codewriter.triinspector": {
+      "version": "1.9.6",
+      "depth": 0,
+      "source": "registry",
+      "dependencies": {},
+      "url": "https://package.openupm.com"
+    },
     "com.unity.2d.common": {
       "version": "6.0.3",
       "depth": 1,
@@ -151,6 +158,15 @@
       "dependencies": {},
       "url": "https://packages.unity.com"
     },
+    "com.unity.recorder": {
+      "version": "3.0.3",
+      "depth": 0,
+      "source": "registry",
+      "dependencies": {
+        "com.unity.timeline": "1.0.0"
+      },
+      "url": "https://packages.unity.com"
+    },
     "com.unity.render-pipelines.core": {
       "version": "12.1.6",
       "depth": 1,
@@ -276,6 +292,13 @@
         "com.unity.modules.xr": "1.0.0"
       },
       "url": "https://packages.unity.com"
+    },
+    "com.yasirkula.beziersolution": {
+      "version": "https://github.com/yasirkula/UnityBezierSolution.git",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {},
+      "hash": "0243225f8ad199c917b2dc25670a4cc7ceaf7b79"
     },
     "com.unity.modules.ai": {
       "version": "1.0.0",
